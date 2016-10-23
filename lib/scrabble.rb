@@ -1,7 +1,21 @@
 class Scrabble
+
   def score(word)
-    0
+    scores = fixed_word(word).map {|letter| score_each_letter(letter)}
+    compile_scores(scores)
   end
+
+  def fixed_word(word)
+    word.delete(".,?/[{}]!@#%^&*()0987654321").chars
+  end
+
+  def score_each_letter(letter)
+    point_values.find {|key, value| key == letter.capitalize}
+  end
+
+  def compile_scores(scores)
+    scores.transpose[1].inject(0){|sum, score| sum + score}
+  end  
 
   def point_values
     {
